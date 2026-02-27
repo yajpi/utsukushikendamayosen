@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>けん玉 予選練習（3アウト方式）</title>
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#121a24;
+      --panel2:#0f1721;
+      --text:#e7eef7;
+      --muted:#a9b6c7;
+      --good:#3ddc97;
+      --bad:#ff5c7a;
+      --warn:#ffcc66;
+      --line:#263244;
+      --btn:#1a2432;
+      --btn2:#223146;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius:16px;
+    }
+    body{
+      margin:0;
+      background:radial-gradient(1200px 600px at 30% 0%, #0f1d2f 0%, var(--bg) 55%);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Segoe UI", Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      line-height:1.4;
+    }
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:18px 14px 40px;
+    }
+    header{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:baseline;
+      justify-content:space-between;
+      margin-bottom:14px;
+    }
+    h1{
+      font-size:18px;
+      margin:0;
+      letter-spacing:.02em;
+    }
+    .sub{
+      color:var(--muted);
+      font-size:12px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:12px;
+    }
+    @media (max-width:860px){
+      .grid{ grid-template-columns:1fr; }
+    }
+    .card{
+      background:linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:14px;
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:#0d1621;
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+    }
+    .badge strong{ color:var(--text); font-weight:650; }
+    .big{
+      font-size:20px;
+      margin:8px 0 6px;
+    }
+    .muted{ color:var(--muted); font-size:12px; }
+    .divider{
+      height:1px; background:var(--line); margin:12px 0;
+    }
+    .btns{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:10px;
+    }
+    button{
+      -webkit-tap-highlight-color: transparent;
+      appearance:none;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, var(--btn2) 0%, var(--btn) 100%);
+      color:var(--text);
+      border-radius:14px;
+      padding:14px 12px;
+      font-size:16px;
+      font-weight:650;
+      cursor:pointer;
+      box-shadow: 0 10px 20px rgba(0,0,0,.25);
+    }
+    button:active{ transform: translateY(1px); }
+    button[disabled]{
+      opacity:.45;
+      cursor:not-allowed;
+      box-shadow:none;
+    }
+    .ok{ border-color: rgba(61,220,151,.35); }
+    .ng{ border-color: rgba(255,92,122,.35); }
+    .toolrow{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;
+    }
+    .toolrow button{ font-size:13px; padding:10px 12px; border-radius:12px; font-weight:600; }
+    .pill{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:8px 10px; border:1px solid var(--line); border-radius:999px;
+      background:#0d1621; font-size:12px; color:var(--muted);
+    }
+    .pill .dot{ width:10px; height:10px; border-radius:999px; background:var(--warn); }
+    .pill.good .dot{ background:var(--good); }
+    .pill.bad .dot{ background:var(--bad); }
+    .list{
+      margin:0; padding-left:18px; color:var(--muted); font-size:13px;
+    }
+    .kpi{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:10px;
+      margin-top:10px;
+    }
+    @media (max-width:520px){
+      .kpi{ grid-template-columns:1fr; }
+    }
+    .kpi .box{
+      background:#0d1621;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px 12px;
+    }
+    .kpi .box .t{ color:var(--muted); font-size:12px; }
+    .kpi .box .v{ font-size:18px; font-weight:750; margin-top:4px; }
+    textarea{
+      width:100%;
+      min-height:160px;
+      background:#0a111a;
+      color:var(--text);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Noto Sans Mono", monospace;
+      font-size:12px;
+      box-sizing:border-box;
+      outline:none;
+    }
+    .smallbtns{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .smallbtns button{
+      font-size:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:650;
+    }
+    .foot{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .alert{
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#0d1621;
+      color:var(--muted);
+      margin-top:10px;
+    }
+    .alert strong{ color:var(--text); font-weight:750; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>けん玉 予選練習（3アウト方式）</h1>
+        <div class="sub">同一技で『失敗×2連続』→アウト。アウト3回で終了。成功したら次の技へ進む。</div>
+      </div>
+      <div class="badge" id="clock">開始前</div>
+    </header>
+
+    <div class="grid">
+      <section class="card" aria-label="入力パネル">
+        <div class="row">
+          <div class="badge">
+            現在の技：<strong id="techNo">1</strong> / 20
+          </div>
+          <div class="badge">
+            連続失敗：<strong id="streak">0</strong>（この技のみ）
+          </div>
+          <div class="badge">
+            アウト：<strong id="outs">0</strong> / 3
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="big" id="techName">小皿</div>
+        <div class="muted" id="techHint">タップで記録。成功で次へ。失敗が2連続でアウト。</div>
+
+        <div class="btns">
+          <button class="ok" id="btnOk">成功</button>
+          <button class="ng" id="btnNg">失敗</button>
+        </div>
+
+        <div class="toolrow">
+          <button id="btnUndo">1手戻す（Undo）</button>
+          <button id="btnReset">リセット</button>
+          <span class="pill good" id="statePill"><span class="dot"></span><span id="stateText">進行中</span></span>
+        </div>
+
+        <div class="alert" id="endAlert" style="display:none;"></div>
+
+        <div class="divider"></div>
+
+        <div class="muted">技リスト（画像の順）</div>
+        <ol class="list" id="techList"></ol>
+      </section>
+
+      <section class="card" aria-label="結果と出力">
+        <div class="row">
+          <div class="badge">結果</div>
+          <div class="badge">記録数：<strong id="eventsCount">0</strong></div>
+        </div>
+
+        <div class="kpi">
+          <div class="box">
+            <div class="t">進んだ技番号（到達）</div>
+            <div class="v" id="reach">1</div>
+          </div>
+          <div class="box">
+            <div class="t">成功回数</div>
+            <div class="v" id="okCount">0</div>
+          </div>
+          <div class="box">
+            <div class="t">失敗回数</div>
+            <div class="v" id="ngCount">0</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="muted">ログ（必要ならここをコピー）</div>
+        <textarea id="output" readonly></textarea>
+
+        <div class="smallbtns">
+          <button id="btnCopyJson">JSONとしてコピー</button>
+          <button id="btnCopyCsv">CSVとしてコピー</button>
+          <button id="btnCopyText">テキストとしてコピー</button>
+        </div>
+
+        <div class="foot">
+          メモ：このHTMLはローカル保存で動作。ネット不要。記録はページを閉じると消える（必要なら保存機能も足せる）。
+        </div>
+      </section>
+    </div>
+  </div>
+
+<script>
+(() => {
+  // 画像内の「予選20種目」順
+  const TECHS = [
+    "小皿",
+    "ろうそく",
+    "とめけん",
+    "飛行機",
+    "ふりけん",
+    "県一周",
+    "日本一周",
+    "世界一周",
+    "灯台",
+    "うぐいす",
+    "つるしとめけん",
+    "地球まわし",
+    "宇宙一周",
+    "さか落とし",
+    "はねけん",
+    "一回転灯台",
+    "一回転飛行機",
+    "すべり止め極意",
+    "灯台とんぼ返り",
+    "うらふりけん"
+  ];
+
+  // 状態
+  let startedAt = null;
+  let endedAt = null;
+  let index = 0;                 // 0..19
+  let outs = 0;                  // 0..3
+  let streakFail = 0;            // 連続失敗（この技のみ）
+  let finished = false;
+
+  // 直近の状態スナップショットを積む（Undo用）
+  const history = [];
+  // 記録イベント
+  const events = [];
+
+  // UI要素
+  const $ = (id) => document.getElementById(id);
+  const techNo = $("techNo");
+  const techName = $("techName");
+  const streak = $("streak");
+  const outsEl = $("outs");
+  const techList = $("techList");
+  const output = $("output");
+  const eventsCount = $("eventsCount");
+  const okCount = $("okCount");
+  const ngCount = $("ngCount");
+  const reach = $("reach");
+  const clock = $("clock");
+  const endAlert = $("endAlert");
+  const statePill = $("statePill");
+  const stateText = $("stateText");
+
+  const btnOk = $("btnOk");
+  const btnNg = $("btnNg");
+  const btnUndo = $("btnUndo");
+  const btnReset = $("btnReset");
+
+  const btnCopyJson = $("btnCopyJson");
+  const btnCopyCsv = $("btnCopyCsv");
+  const btnCopyText = $("btnCopyText");
+
+  function nowISO(){
+    return new Date().toISOString();
+  }
+
+  function formatTime(d){
+    if(!d) return "";
+    const pad = (n)=> String(n).padStart(2,"0");
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+  }
+
+  function renderTechList(){
+    techList.innerHTML = "";
+    TECHS.forEach((t, i) => {
+      const li = document.createElement("li");
+      li.textContent = `${i+1}. ${t}`;
+      techList.appendChild(li);
+    });
+  }
+
+  function snapshot(){
+    return {
+      startedAt,
+      endedAt,
+      index,
+      outs,
+      streakFail,
+      finished,
+      events: JSON.parse(JSON.stringify(events))
+    };
+  }
+
+  function restore(snap){
+    startedAt = snap.startedAt;
+    endedAt = snap.endedAt;
+    index = snap.index;
+    outs = snap.outs;
+    streakFail = snap.streakFail;
+    finished = snap.finished;
+
+    events.length = 0;
+    snap.events.forEach(e => events.push(e));
+  }
+
+  function setFinished(){
+    finished = true;
+    endedAt = new Date();
+    btnOk.disabled = true;
+    btnNg.disabled = true;
+    statePill.classList.remove("good");
+    statePill.classList.add("bad");
+    stateText.textContent = "終了";
+    endAlert.style.display = "block";
+    endAlert.innerHTML =
+      `<strong>終了。</strong> アウト3回に到達。<br>` +
+      `到達：技 ${index+1}『${TECHS[index]}』まで。<br>` +
+      `開始 ${formatTime(startedAt)} / 終了 ${formatTime(endedAt)}。`;
+  }
+
+  function ensureStarted(){
+    if(!startedAt){
+      startedAt = new Date();
+    }
+  }
+
+  function updateClock(){
+    if(!startedAt){
+      clock.textContent = "開始前";
+      return;
+    }
+    if(finished && endedAt){
+      clock.textContent = `開始 ${formatTime(startedAt)} / 終了 ${formatTime(endedAt)}`;
+      return;
+    }
+    clock.textContent = `開始 ${formatTime(startedAt)} / 進行中`;
+  }
+
+  function updateUI(){
+    techNo.textContent = String(index + 1);
+    techName.textContent = TECHS[index] ?? "（終了）";
+    streak.textContent = String(streakFail);
+    outsEl.textContent = String(outs);
+
+    eventsCount.textContent = String(events.length);
+    okCount.textContent = String(events.filter(e => e.result === "OK").length);
+    ngCount.textContent = String(events.filter(e => e.result === "NG").length);
+    reach.textContent = String(index + 1);
+
+    updateClock();
+
+    // 出力（テキスト表示）
+    const lines = [];
+    lines.push("けん玉 予選練習ログ（3アウト方式）");
+    lines.push(`開始: ${startedAt ? startedAt.toLocaleString() : "-"}`);
+    lines.push(`終了: ${endedAt ? endedAt.toLocaleString() : "-"}`);
+    lines.push(`アウト: ${outs}/3`);
+    lines.push(`到達: 技 ${index+1}『${TECHS[index]}』`);
+    lines.push("");
+    lines.push("No,技,結果,連続失敗,アウト累計,時刻(ISO)");
+    events.forEach((e, i) => {
+      lines.push([
+        i+1,
+        e.tech,
+        e.result,
+        e.streakFailAfter,
+        e.outsAfter,
+        e.timeISO
+      ].join(","));
+    });
+    output.value = lines.join("\n");
+
+    // Undo可否
+    btnUndo.disabled = (history.length === 0);
+
+    // 終了表示
+    if(!finished){
+      endAlert.style.display = "none";
+      statePill.classList.remove("bad");
+      statePill.classList.add("good");
+      stateText.textContent = "進行中";
+      btnOk.disabled = false;
+      btnNg.disabled = false;
+    }
+  }
+
+  function logEvent(result){
+    ensureStarted();
+
+    // Undo用に保存
+    history.push(snapshot());
+
+    const tech = TECHS[index];
+
+    if(result === "OK"){
+      streakFail = 0;
+
+      events.push({
+        timeISO: nowISO(),
+        techNo: index + 1,
+        tech,
+        result: "OK",
+        streakFailAfter: streakFail,
+        outsAfter: outs,
+        note: "成功→次へ"
+      });
+
+      // 次へ
+      if(index < TECHS.length - 1){
+        index += 1;
+      } else {
+        // 20まで到達したら一旦終了扱い（必要なら継続モードも追加可）
+        finished = true;
+        endedAt = new Date();
+        btnOk.disabled = true;
+        btnNg.disabled = true;
+        statePill.classList.remove("good");
+        statePill.classList.add("bad");
+        stateText.textContent = "終了";
+        endAlert.style.display = "block";
+        endAlert.innerHTML =
+          `<strong>終了。</strong> 20種目を完走。<br>` +
+          `開始 ${formatTime(startedAt)} / 終了 ${formatTime(endedAt)}。`;
+      }
+
+      updateUI();
+      return;
+    }
+
+    if(result === "NG"){
+      streakFail += 1;
+
+      // 2連続失敗でアウト
+      if(streakFail >= 2){
+        outs += 1;
+
+        events.push({
+          timeISO: nowISO(),
+          techNo: index + 1,
+          tech,
+          result: "NG",
+          streakFailAfter: streakFail,
+          outsAfter: outs,
+          note: "2連続失敗→アウト"
+        });
+
+        // アウト後の挙動：同じ技を続行（現実の予選ルールに寄せるならここは同一技継続が自然）
+        // streakはリセットして「次の試行」に入る
+        streakFail = 0;
+
+        if(outs >= 3){
+          setFinished();
+          updateUI();
+          return;
+        }
+
+        updateUI();
+        return;
+      }
+
+      events.push({
+        timeISO: nowISO(),
+        techNo: index + 1,
+        tech,
+        result: "NG",
+        streakFailAfter: streakFail,
+        outsAfter: outs,
+        note: "失敗（まだアウトではない）"
+      });
+
+      updateUI();
+      return;
+    }
+  }
+
+  async function copyToClipboard(text){
+    try{
+      await navigator.clipboard.writeText(text);
+      alert("コピーした。");
+    }catch(e){
+      // 旧ブラウザ向けフォールバック
+      output.focus();
+      output.select();
+      document.execCommand("copy");
+      alert("コピーした（互換モード）。");
+    }
+  }
+
+  function buildJSON(){
+    return JSON.stringify({
+      app: "kendama-yosen-practice",
+      rules: {
+        outsToEnd: 3,
+        outWhen: "same tech 2 consecutive fails",
+        advanceWhen: "at least one success on current tech"
+      },
+      startedAt: startedAt ? startedAt.toISOString() : null,
+      endedAt: endedAt ? endedAt.toISOString() : null,
+      currentTechNo: index + 1,
+      currentTech: TECHS[index],
+      outs,
+      events
+    }, null, 2);
+  }
+
+  function buildCSV(){
+    const header = ["No","技No","技","結果","連続失敗(後)","アウト累計(後)","時刻(ISO)","メモ"];
+    const rows = events.map((e, i) => ([
+      i+1,
+      e.techNo,
+      e.tech,
+      e.result,
+      e.streakFailAfter,
+      e.outsAfter,
+      e.timeISO,
+      e.note
+    ]));
+    return [header, ...rows].map(r =>
+      r.map(x => {
+        const s = String(x ?? "");
+        // CSV安全化
+        if(/[",\n]/.test(s)) return `"${s.replace(/"/g,'""')}"`;
+        return s;
+      }).join(",")
+    ).join("\n");
+  }
+
+  function resetAll(){
+    if(!confirm("リセットする。よいか。")){
+      return;
+    }
+    startedAt = null;
+    endedAt = null;
+    index = 0;
+    outs = 0;
+    streakFail = 0;
+    finished = false;
+    history.length = 0;
+    events.length = 0;
+    updateUI();
+  }
+
+  function undo(){
+    if(history.length === 0) return;
+    const snap = history.pop();
+    restore(snap);
+    updateUI();
+  }
+
+  // イベント
+  btnOk.addEventListener("click", () => { if(!finished) logEvent("OK"); });
+  btnNg.addEventListener("click", () => { if(!finished) logEvent("NG"); });
+  btnReset.addEventListener("click", resetAll);
+  btnUndo.addEventListener("click", undo);
+
+  btnCopyJson.addEventListener("click", () => copyToClipboard(buildJSON()));
+  btnCopyCsv.addEventListener("click", () => copyToClipboard(buildCSV()));
+  btnCopyText.addEventListener("click", () => copyToClipboard(output.value));
+
+  // 初期化
+  renderTechList();
+  updateUI();
+
+  // キーボード操作（PC用）
+  window.addEventListener("keydown", (e) => {
+    if(e.repeat) return;
+    if(finished) return;
+    if(e.key === "ArrowRight" || e.key === "Enter") logEvent("OK");
+    if(e.key === "ArrowLeft" || e.key === "Backspace") logEvent("NG");
+    if(e.key.toLowerCase() === "u") undo();
+    if(e.key.toLowerCase() === "r") resetAll();
+  });
+})();
+</script>
+</body>
+</html>
