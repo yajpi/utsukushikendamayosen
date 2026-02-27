@@ -1,858 +1,283 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>けん玉 予選練習（各技2回・3アウト）</title>
-  <style>
-    :root{
-      --bg:#0b0f14;
-      --panel:#121a24;
-      --panel2:#0f1721;
-      --text:#e7eef7;
-      --muted:#a9b6c7;
-      --good:#3ddc97;
-      --bad:#ff5c7a;
-      --warn:#ffcc66;
-      --line:#263244;
-      --btn:#1a2432;
-      --btn2:#223146;
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:18px;
-    }
-    *{ box-sizing:border-box; }
-    body{
-      margin:0;
-      background:
-        radial-gradient(1100px 600px at 20% 0%, #102746 0%, rgba(16,39,70,0) 55%),
-        radial-gradient(900px 520px at 90% 10%, #2a1240 0%, rgba(42,18,64,0) 52%),
-        linear-gradient(180deg, #070a0f 0%, var(--bg) 60%);
-      color:var(--text);
-      font-family: ui-sans-serif, system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Segoe UI", Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      line-height:1.4;
-    }
-    .wrap{ max-width:980px; margin:0 auto; padding:18px 14px 42px; }
-    header{
-      display:flex; gap:12px; flex-wrap:wrap;
-      align-items:flex-end; justify-content:space-between;
-      margin-bottom:14px;
-    }
-    h1{ font-size:18px; margin:0; letter-spacing:.02em; }
-    .sub{ color:var(--muted); font-size:12px; margin-top:6px; }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>けん玉 予選練習（各技2回・3アウト）</title>
+<style>
+:root{
+  --bg:#0b0f14;
+  --text:#e7eef7;
+  --muted:#a9b6c7;
+  --good:#3ddc97;
+  --warn:#ffcc66;
+  --bad:#ff2d2d;
+  --line:#263244;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;
+  background:linear-gradient(180deg,#0b0f14,#111a24);
+  color:var(--text);
+}
+.wrap{max-width:960px;margin:0 auto;padding:18px}
+.card{
+  background:#111a24;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:16px;
+}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.badge{
+  background:#0e1620;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:6px 10px;
+  font-size:12px;
+  color:var(--muted);
+}
+.badge strong{color:#fff;font-weight:800}
 
-    .grid{ display:grid; grid-template-columns: 1.15fr .85fr; gap:12px; }
-    @media (max-width:860px){ .grid{ grid-template-columns:1fr; } }
+.techBig{font-size:28px;font-weight:900;margin:8px 0}
 
-    .card{
-      background:linear-gradient(180deg, rgba(18,26,36,.95) 0%, rgba(15,23,33,.95) 100%);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:14px;
-      backdrop-filter: blur(10px);
-    }
+.attemptMarks{display:flex;gap:8px;margin-bottom:8px}
+.mark{
+  width:18px;height:18px;border-radius:999px;
+  border:2px solid rgba(255,255,255,.2);
+  background:#222;
+  transition:.2s;
+}
+.mark.ok{background:var(--good);box-shadow:0 0 10px var(--good)}
+.mark.ng{background:var(--warn);box-shadow:0 0 10px var(--warn)}
 
-    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
-    .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px; border-radius:999px;
-      background:#0d1621; border:1px solid var(--line);
-      color:var(--muted); font-size:12px;
-    }
-    .badge strong{ color:var(--text); font-weight:850; }
+.outsDots{display:flex;gap:10px;margin-top:6px}
+.outsDots .dot{
+  width:20px;height:20px;border-radius:999px;
+  border:2px solid rgba(255,255,255,.2);
+  background:#222;
+}
+.outsDots .dot.on{
+  background:var(--bad);
+  box-shadow:0 0 12px var(--bad);
+}
 
-    .divider{ height:1px; background:var(--line); margin:12px 0; }
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+button{
+  border:none;border-radius:16px;
+  padding:16px;font-size:18px;font-weight:900;
+  cursor:pointer;color:#fff;
+  transition:.15s;
+  position:relative;overflow:hidden;
+}
+button.ok{background:#1f3d32}
+button.ng{background:#3d1f2b}
+button:active{transform:scale(.97)}
 
-    /* ===== Big status ===== */
-    .status{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:10px;
-      margin-top:8px;
-    }
-    @media (max-width:520px){ .status{ grid-template-columns:1fr; } }
+button.flash.ok{animation:okPulse .35s}
+button.flash.ng{animation:ngShake .4s}
 
-    .statusBox{
-      border:1px solid var(--line);
-      background:linear-gradient(180deg, #0c1520 0%, #0a111a 100%);
-      border-radius:16px;
-      padding:12px;
-    }
+@keyframes okPulse{
+  0%{transform:scale(1)}
+  40%{transform:scale(1.05)}
+  100%{transform:scale(1)}
+}
+@keyframes ngShake{
+  0%{transform:translateX(0)}
+  25%{transform:translateX(-6px)}
+  50%{transform:translateX(6px)}
+  75%{transform:translateX(-4px)}
+  100%{transform:translateX(0)}
+}
 
-    .statusTitle{
-      font-size:12px;
-      color:var(--muted);
-      margin:0 0 6px 0;
-      letter-spacing:.02em;
-    }
-
-    .techBig{
-      font-size:28px;
-      font-weight:900;
-      letter-spacing:.02em;
-      margin:0;
-      line-height:1.2;
-    }
-
-    .techMeta{
-      margin-top:8px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-      color:var(--muted);
-      font-size:12px;
-    }
-
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px; border:1px solid var(--line);
-      border-radius:999px; background:#0d1621;
-      color:var(--muted); font-size:12px;
-    }
-    .pill .dot{ width:10px; height:10px; border-radius:999px; background:var(--warn); }
-    .pill.good .dot{ background:var(--good); }
-    .pill.bad .dot{ background:var(--bad); }
-
-    /* ===== Attempt result markers ===== */
-    .attemptMarks{
-      display:flex;
-      gap:8px;
-      align-items:center;
-      margin-bottom:10px;
-    }
-    .mark{
-      width:16px; height:16px;
-      border-radius:999px;
-      border:2px solid rgba(255,255,255,.18);
-      background: rgba(0,0,0,.18);
-      transition: transform .18s ease, background .18s ease, border-color .18s ease, box-shadow .18s ease;
-    }
-    .mark.ok{
-      background: var(--good);
-      border-color: rgba(61,220,151,.6);
-      box-shadow: 0 0 0 6px rgba(61,220,151,.10);
-      transform: scale(1.05);
-    }
-    .mark.ng{
-      background: var(--warn);
-      border-color: rgba(255,204,102,.7);
-      box-shadow: 0 0 0 6px rgba(255,204,102,.10);
-      transform: scale(1.05);
-    }
-
-    /* ===== Outs dots ===== */
-    .outsDots{ display:flex; align-items:center; gap:10px; }
-    .outsDots .dot{
-      width:18px; height:18px; border-radius:999px;
-      border:2px solid rgba(255,255,255,.18);
-      background:rgba(0,0,0,.15);
-      box-shadow: inset 0 0 0 2px rgba(0,0,0,.22);
-      transition: transform .18s ease, background .18s ease, border-color .18s ease;
-    }
-    .outsDots .dot.on{
-      background: #ff2d2d;
-      border-color: rgba(255,45,45,.55);
-      transform: scale(1.06);
-    }
-    .outsText{ color:var(--muted); font-size:12px; margin-top:8px; }
-
-    /* ===== Buttons with flashy animation ===== */
-    .btns{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
-
-    button{
-      -webkit-tap-highlight-color: transparent;
-      appearance:none;
-      border:1px solid var(--line);
-      background:linear-gradient(180deg, var(--btn2) 0%, var(--btn) 100%);
-      color:var(--text);
-      border-radius:16px;
-      padding:16px 12px;
-      font-size:18px;
-      font-weight:900;
-      cursor:pointer;
-      box-shadow: 0 12px 24px rgba(0,0,0,.28);
-      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease, border-color .12s ease;
-      position: relative;
-      overflow:hidden;
-      transform: translateZ(0);
-    }
-    button:active{
-      transform: translateY(1px) scale(0.985);
-      filter: brightness(1.10);
-      box-shadow: 0 8px 16px rgba(0,0,0,.22);
-    }
-
-    /* Ripple */
-    .ripple{
-      position:absolute;
-      border-radius:999px;
-      transform: translate(-50%,-50%);
-      pointer-events:none;
-      opacity:.0;
-      width:8px; height:8px;
-      animation: ripple .55s ease-out;
-      mix-blend-mode: screen;
-    }
-    @keyframes ripple{
-      0%{ opacity:.85; transform: translate(-50%,-50%) scale(1); }
-      100%{ opacity:0; transform: translate(-50%,-50%) scale(22); }
-    }
-
-    /* Flash styles per button */
-    .ok{ border-color: rgba(61,220,151,.35); }
-    .ng{ border-color: rgba(255,92,122,.35); }
-
-    button.ok.flash{
-      animation: okPulse .35s ease-out;
-      box-shadow: 0 0 0 0 rgba(61,220,151,.0), 0 16px 30px rgba(0,0,0,.30);
-    }
-    @keyframes okPulse{
-      0%{ transform: scale(1); filter: brightness(1); }
-      35%{ transform: scale(1.03); filter: brightness(1.18); }
-      100%{ transform: scale(1); filter: brightness(1.02); }
-    }
-
-    button.ng.flash{
-      animation: ngShake .42s ease-out;
-      filter: brightness(1.12);
-    }
-    @keyframes ngShake{
-      0%{ transform: translateX(0); }
-      20%{ transform: translateX(-5px) rotate(-0.6deg); }
-      40%{ transform: translateX(5px) rotate(0.6deg); }
-      60%{ transform: translateX(-4px) rotate(-0.5deg); }
-      80%{ transform: translateX(4px) rotate(0.5deg); }
-      100%{ transform: translateX(0); }
-    }
-
-    /* Burst particles (pure CSS with pseudo) */
-    button.flash::after{
-      content:"";
-      position:absolute;
-      inset:-30%;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(255,255,255,.22) 0 6px, rgba(255,255,255,0) 7px),
-        radial-gradient(circle at 70% 25%, rgba(255,255,255,.18) 0 5px, rgba(255,255,255,0) 6px),
-        radial-gradient(circle at 40% 70%, rgba(255,255,255,.16) 0 6px, rgba(255,255,255,0) 7px),
-        radial-gradient(circle at 80% 75%, rgba(255,255,255,.16) 0 5px, rgba(255,255,255,0) 6px);
-      opacity:0;
-      transform: scale(.75);
-      animation: burst .45s ease-out;
-      pointer-events:none;
-    }
-    @keyframes burst{
-      0%{ opacity:.0; transform: scale(.6); }
-      30%{ opacity:.75; transform: scale(1); }
-      100%{ opacity:0; transform: scale(1.2); }
-    }
-
-    button[disabled]{ opacity:.45; cursor:not-allowed; box-shadow:none; transform:none; }
-
-    .toolrow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; align-items:center; }
-    .toolrow button{ font-size:13px; padding:10px 12px; border-radius:12px; font-weight:800; }
-
-    .list{ margin:0; padding-left:18px; color:var(--muted); font-size:13px; }
-
-    /* ===== Right panel output ===== */
-    .kpi{ display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-top:10px; }
-    @media (max-width:520px){ .kpi{ grid-template-columns:1fr; } }
-    .kpi .box{
-      background:#0d1621; border:1px solid var(--line);
-      border-radius:14px; padding:10px 12px;
-    }
-    .kpi .box .t{ color:var(--muted); font-size:12px; }
-    .kpi .box .v{ font-size:18px; font-weight:900; margin-top:4px; }
-
-    textarea{
-      width:100%; min-height:160px;
-      background:#0a111a; color:var(--text);
-      border:1px solid var(--line);
-      border-radius:14px; padding:10px 12px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Noto Sans Mono", monospace;
-      font-size:12px; outline:none;
-    }
-    .smallbtns{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-    .smallbtns button{ font-size:12px; padding:10px 12px; border-radius:12px; font-weight:900; }
-
-    .clockBadge{
-      padding:8px 10px; border-radius:999px;
-      background:#0d1621; border:1px solid var(--line);
-      color:var(--muted); font-size:12px; white-space: nowrap;
-    }
-
-    /* ===== End overlay ===== */
-    .overlay{
-      position: fixed; inset:0;
-      display:none; align-items:center; justify-content:center;
-      padding:18px;
-      background: rgba(2,6,10,.72);
-      backdrop-filter: blur(10px);
-      z-index: 999;
-    }
-    .overlay.show{ display:flex; }
-    .endCard{
-      width:min(820px, 100%);
-      border-radius:22px;
-      border:1px solid rgba(255,255,255,.14);
-      background:
-        radial-gradient(900px 380px at 25% 0%, rgba(61,220,151,.18) 0%, rgba(0,0,0,0) 60%),
-        radial-gradient(900px 380px at 90% 20%, rgba(255,92,122,.16) 0%, rgba(0,0,0,0) 58%),
-        linear-gradient(180deg, rgba(16,24,34,.92) 0%, rgba(10,16,24,.92) 100%);
-      box-shadow: 0 30px 70px rgba(0,0,0,.55);
-      padding:18px;
-      animation: pop .22s ease-out;
-    }
-    @keyframes pop{
-      0%{ transform: translateY(8px) scale(.985); opacity:0; }
-      100%{ transform: translateY(0) scale(1); opacity:1; }
-    }
-    .endTitle{
-      font-size:36px; font-weight:950; margin:0 0 6px 0;
-      letter-spacing:.02em; line-height:1.05;
-    }
-    .endSub{ color:var(--muted); font-size:13px; margin:0 0 14px 0; }
-    .endGrid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    @media (max-width:720px){ .endGrid{ grid-template-columns:1fr; } }
-    .endBox{
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(8,14,21,.6);
-      border-radius:16px; padding:12px;
-    }
-    .endBox .t{ color:var(--muted); font-size:12px; }
-    .endBox .v{ font-size:18px; font-weight:900; margin-top:4px; }
-    .endActions{
-      display:flex; gap:10px; flex-wrap:wrap;
-      justify-content:flex-end; margin-top:14px;
-    }
-    .endActions button{ font-size:13px; padding:10px 12px; border-radius:12px; font-weight:950; }
-  </style>
+.overlay{
+  position:fixed;inset:0;
+  display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.7);
+}
+.overlay.show{display:flex}
+.endCard{
+  background:#111a24;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:24px;
+  max-width:520px;width:100%;
+  text-align:center;
+}
+.endTitle{font-size:36px;font-weight:900;margin-bottom:12px}
+.endBox{margin:6px 0;font-size:16px}
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div>
-        <h1>けん玉 予選練習（各技2回・3アウト）</h1>
-        <div class="sub">各技は必ず2回。2回とも失敗（失敗→失敗）でアウト。アウト3回で終了。</div>
-      </div>
-      <div class="clockBadge" id="clock">開始前</div>
-    </header>
+<div class="wrap">
 
-    <div class="grid">
-      <section class="card" aria-label="入力パネル">
-        <div class="row">
-          <div class="badge">技番号：<strong id="techNo">1</strong> / 20</div>
-          <div class="badge">試行：<strong id="attemptNo">1</strong> / 2</div>
-          <div class="pill good" id="statePill"><span class="dot"></span><span id="stateText">進行中</span></div>
-        </div>
+<div class="card">
+<div class="row">
+<div class="badge">技番号：<strong id="techNo">1</strong> / 20</div>
+<div class="badge">試行：<strong id="attemptNo">1</strong> / 2</div>
+</div>
 
-        <div class="status">
-          <div class="statusBox">
-            <p class="statusTitle">いまの技</p>
-            <p class="techBig" id="techName">小皿</p>
-            <div class="techMeta">
-              <span class="badge">この技の連続失敗：<strong id="streak">0</strong></span>
-            </div>
-          </div>
+<div class="techBig" id="techName">小皿</div>
 
-          <div class="statusBox">
-            <p class="statusTitle">直近の結果（この技）</p>
-            <div class="attemptMarks" aria-label="attempt marks">
-              <div class="mark" id="mark1" title="1回目"></div>
-              <div class="mark" id="mark2" title="2回目"></div>
-            </div>
+<div class="attemptMarks">
+<div class="mark" id="mark1"></div>
+<div class="mark" id="mark2"></div>
+</div>
 
-            <p class="statusTitle" style="margin-top:6px;">アウト</p>
-            <div class="outsDots" aria-label="outs dots">
-              <div class="dot" id="outDot1"></div>
-              <div class="dot" id="outDot2"></div>
-              <div class="dot" id="outDot3"></div>
-            </div>
-            <div class="outsText">アウト：<strong id="outs">0</strong> / 3</div>
-          </div>
-        </div>
+<div class="outsDots">
+<div class="dot" id="outDot1"></div>
+<div class="dot" id="outDot2"></div>
+<div class="dot" id="outDot3"></div>
+</div>
+<div class="badge">アウト：<strong id="outs">0</strong> / 3</div>
 
-        <div class="btns">
-          <button class="ok" id="btnOk">成功</button>
-          <button class="ng" id="btnNg">失敗</button>
-        </div>
+<div class="btns">
+<button class="ok" id="btnOk">成功</button>
+<button class="ng" id="btnNg">失敗</button>
+</div>
+</div>
 
-        <div class="toolrow">
-          <button id="btnUndo">1手戻す（Undo）</button>
-          <button id="btnReset">リセット</button>
-        </div>
+<div class="card">
+<div class="badge">技リスト（予選20種目）</div>
+<ol id="techList"></ol>
+</div>
 
-        <div class="divider"></div>
+</div>
 
-        <div class="muted">技リスト（予選20種目）</div>
-        <ol class="list" id="techList"></ol>
-      </section>
-
-      <section class="card" aria-label="結果と出力">
-        <div class="row">
-          <div class="badge">結果</div>
-          <div class="badge">記録数：<strong id="eventsCount">0</strong></div>
-        </div>
-
-        <div class="kpi">
-          <div class="box">
-            <div class="t">到達（技番号）</div>
-            <div class="v" id="reach">1</div>
-          </div>
-          <div class="box">
-            <div class="t">成功回数</div>
-            <div class="v" id="okCount">0</div>
-          </div>
-          <div class="box">
-            <div class="t">失敗回数</div>
-            <div class="v" id="ngCount">0</div>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="muted">ログ</div>
-        <textarea id="output" readonly></textarea>
-
-        <div class="smallbtns">
-          <button id="btnCopyJson">JSONとしてコピー</button>
-          <button id="btnCopyCsv">CSVとしてコピー</button>
-          <button id="btnCopyText">テキストとしてコピー</button>
-        </div>
-      </section>
-    </div>
-  </div>
-
-  <!-- End overlay -->
-  <div class="overlay" id="overlay" role="dialog" aria-modal="true">
-    <div class="endCard">
-      <div class="row" style="align-items:flex-start;">
-        <div>
-          <div class="endTitle" id="endTitle">FINISHED</div>
-          <div class="endSub" id="endSub">セッションが終了しました</div>
-        </div>
-        <div class="clockBadge" id="endClock">—</div>
-      </div>
-
-      <div class="endGrid">
-        <div class="endBox">
-          <div class="t">理由</div>
-          <div class="v" id="endReason">—</div>
-        </div>
-        <div class="endBox">
-          <div class="t">到達</div>
-          <div class="v" id="endReach">—</div>
-        </div>
-        <div class="endBox">
-          <div class="t">クラス判定</div>
-          <div class="v" id="endClass">—</div>
-        </div>
-        <div class="endBox">
-          <div class="t">アウト / 成功 / 失敗</div>
-          <div class="v" id="endStats">—</div>
-        </div>
-      </div>
-
-      <div class="endActions">
-        <button id="btnEndCopyCsv">CSVをコピー</button>
-        <button id="btnEndCopyJson">JSONをコピー</button>
-        <button id="btnEndClose">閉じる</button>
-      </div>
-    </div>
-  </div>
+<div class="overlay" id="overlay">
+<div class="endCard">
+<div class="endTitle">FINISHED</div>
+<div class="endBox" id="endReason"></div>
+<div class="endBox" id="endReach"></div>
+<div class="endBox" id="endClass"></div>
+</div>
+</div>
 
 <script>
-(() => {
-  const TECHS = [
-    "小皿","ろうそく","とめけん","飛行機","ふりけん",
-    "県一周","日本一周","世界一周","灯台","うぐいす",
-    "つるしとめけん","地球まわし","宇宙一周","さか落とし","はねけん",
-    "一回転灯台","一回転飛行機","すべり止め極意","灯台とんぼ返り","うらふりけん"
-  ];
+const TECHS=[
+"小皿","ろうそく","とめけん","飛行機","ふりけん",
+"県一周","日本一周","世界一周","灯台","うぐいす",
+"つるしとめけん","地球まわし","宇宙一周","さか落とし","はねけん",
+"一回転灯台","一回転飛行機","すべり止め極意","灯台とんぼ返り","うらふりけん"
+];
 
-  let startedAt = null;
-  let endedAt = null;
+let index=0;
+let attempt=1;
+let outs=0;
+let finished=false;
+let attemptResults=[];
 
-  let index = 0;           // 技 0..19
-  let attempt = 1;         // 1 or 2
-  let outs = 0;            // 0..3
-  let streakFail = 0;      // 技内の連続失敗
-  let finished = false;
+const $=id=>document.getElementById(id);
+const btnOk=$("btnOk");
+const btnNg=$("btnNg");
+const mark1=$("mark1");
+const mark2=$("mark2");
 
-  let attemptResults = []; // ["NG","OK"] etc.
+function renderList(){
+const list=$("techList");
+TECHS.forEach(t=>{
+const li=document.createElement("li");
+li.textContent=t;
+list.appendChild(li);
+});
+}
 
-  const history = [];
-  const events = [];
+function updateUI(){
+$("techNo").textContent=index+1;
+$("techName").textContent=TECHS[index]||"終了";
+$("attemptNo").textContent=attempt;
+$("outs").textContent=outs;
+$("outDot1").classList.toggle("on",outs>=1);
+$("outDot2").classList.toggle("on",outs>=2);
+$("outDot3").classList.toggle("on",outs>=3);
+}
 
-  const $ = (id) => document.getElementById(id);
+function resetMarks(){
+mark1.className="mark";
+mark2.className="mark";
+}
 
-  const techNo = $("techNo");
-  const techName = $("techName");
-  const attemptNo = $("attemptNo");
-  const streak = $("streak");
-  const outsEl = $("outs");
-  const techList = $("techList");
+function updateMarks(){
+resetMarks();
+if(attemptResults[0]==="OK")mark1.classList.add("ok");
+if(attemptResults[0]==="NG")mark1.classList.add("ng");
+if(attemptResults[1]==="OK")mark2.classList.add("ok");
+if(attemptResults[1]==="NG")mark2.classList.add("ng");
+}
 
-  const outDot1 = $("outDot1");
-  const outDot2 = $("outDot2");
-  const outDot3 = $("outDot3");
+function classify(n){
+if(n<=4)return"チャレンジクラス";
+if(n<=8)return"Cクラス";
+if(n<=13)return"Bクラス";
+if(n<=17)return"Aクラス";
+return"0〜1クラス";
+}
 
-  const mark1 = $("mark1");
-  const mark2 = $("mark2");
+function finish(reason){
+finished=true;
+$("overlay").classList.add("show");
+$("endReason").textContent=reason;
+$("endReach").textContent="到達：技 "+(index+1);
+$("endClass").textContent="クラス判定："+classify(index+1);
+}
 
-  const output = $("output");
-  const eventsCount = $("eventsCount");
-  const okCount = $("okCount");
-  const ngCount = $("ngCount");
-  const reach = $("reach");
-  const clock = $("clock");
+function nextTech(){
+index++;
+attempt=1;
+attemptResults=[];
+resetMarks();
+if(index>=TECHS.length){
+finish("20種目完走");
+}
+}
 
-  const statePill = $("statePill");
-  const stateText = $("stateText");
+function logTap(result){
+if(finished)return;
 
-  const btnOk = $("btnOk");
-  const btnNg = $("btnNg");
-  const btnUndo = $("btnUndo");
-  const btnReset = $("btnReset");
+attemptResults.push(result);
+updateMarks();
 
-  const btnCopyJson = $("btnCopyJson");
-  const btnCopyCsv = $("btnCopyCsv");
-  const btnCopyText = $("btnCopyText");
+if(result==="OK"){
+btnOk.classList.add("flash");
+setTimeout(()=>btnOk.classList.remove("flash"),400);
+}else{
+btnNg.classList.add("flash");
+setTimeout(()=>btnNg.classList.remove("flash"),400);
+}
 
-  const overlay = $("overlay");
-  const endTitle = $("endTitle");
-  const endSub = $("endSub");
-  const endClock = $("endClock");
-  const endReason = $("endReason");
-  const endReach = $("endReach");
-  const endClass = $("endClass");
-  const endStats = $("endStats");
-  const btnEndClose = $("btnEndClose");
-  const btnEndCopyCsv = $("btnEndCopyCsv");
-  const btnEndCopyJson = $("btnEndCopyJson");
+if(attempt===1){
+attempt=2;
+updateUI();
+return;
+}
 
-  function nowISO(){ return new Date().toISOString(); }
-  function pad(n){ return String(n).padStart(2,"0"); }
-  function formatTime(d){
-    if(!d) return "";
-    return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
-  }
+if(attemptResults[0]==="NG"&&attemptResults[1]==="NG"){
+outs++;
+}
 
-  function ensureStarted(){
-    if(!startedAt) startedAt = new Date();
-  }
+updateUI();
 
-  function updateClock(){
-    if(!startedAt){ clock.textContent = "開始前"; return; }
-    if(finished && endedAt){
-      clock.textContent = `開始 ${formatTime(startedAt)} / 終了 ${formatTime(endedAt)}`;
-      return;
-    }
-    clock.textContent = `開始 ${formatTime(startedAt)} / 進行中`;
-  }
+btnOk.disabled=true;
+btnNg.disabled=true;
 
-  function renderTechList(){
-    techList.innerHTML = "";
-    TECHS.forEach((t) => {
-      const li = document.createElement("li");
-      // ol が番号を出すので、ここでは文字だけ
-      li.textContent = t;
-      techList.appendChild(li);
-    });
-  }
+setTimeout(()=>{
+if(outs>=3){
+finish("アウト3回に到達");
+}else{
+nextTech();
+updateUI();
+}
+btnOk.disabled=false;
+btnNg.disabled=false;
+},800);
+}
 
-  function snapshot(){
-    return {
-      startedAt, endedAt, index, attempt, outs, streakFail, finished,
-      attemptResults: [...attemptResults],
-      events: JSON.parse(JSON.stringify(events))
-    };
-  }
-  function restore(snap){
-    startedAt = snap.startedAt;
-    endedAt = snap.endedAt;
-    index = snap.index;
-    attempt = snap.attempt;
-    outs = snap.outs;
-    streakFail = snap.streakFail;
-    finished = snap.finished;
-    attemptResults = [...snap.attemptResults];
+btnOk.onclick=()=>logTap("OK");
+btnNg.onclick=()=>logTap("NG");
 
-    events.length = 0;
-    snap.events.forEach(e => events.push(e));
-  }
-
-  function updateOutDots(){
-    const dots = [outDot1, outDot2, outDot3];
-    dots.forEach((d, i) => d.classList.toggle("on", i < outs));
-  }
-
-  function resetMarks(){
-    mark1.classList.remove("ok","ng");
-    mark2.classList.remove("ok","ng");
-  }
-
-  function updateMarksFromResults(){
-    resetMarks();
-    if(attemptResults[0] === "OK") mark1.classList.add("ok");
-    if(attemptResults[0] === "NG") mark1.classList.add("ng");
-    if(attemptResults[1] === "OK") mark2.classList.add("ok");
-    if(attemptResults[1] === "NG") mark2.classList.add("ng");
-  }
-
-  function classifyByReach(reachNo){
-    // reachNo: 1..20
-    if(reachNo <= 4) return "チャレンジクラス（ふりけん以前）";
-    if(reachNo <= 8) return "Cクラス（世界一周まで）";
-    if(reachNo <= 13) return "Bクラス（宇宙一周まで）";
-    if(reachNo <= 17) return "Aクラス（一回転飛行機まで）";
-    return "0〜1クラス（すべり止め極意以降）";
-  }
-
-  function showEndOverlay(reasonText){
-    const ok = events.filter(e => e.result === "OK").length;
-    const ng = events.filter(e => e.result === "NG").length;
-
-    const reachNo = Math.min(index + 1, TECHS.length);
-    const tech = TECHS[index] ?? "-";
-
-    endTitle.textContent = "FINISHED";
-    endSub.textContent = "セッションが終了しました";
-    endClock.textContent = (startedAt && endedAt) ? `開始 ${formatTime(startedAt)} / 終了 ${formatTime(endedAt)}` : "—";
-    endReason.textContent = reasonText;
-    endReach.textContent = `技 ${reachNo}「${tech}」 / 試行 ${attempt}/2`;
-    endClass.textContent = classifyByReach(reachNo);
-    endStats.textContent = `${outs}/3  /  ${ok}  /  ${ng}`;
-
-    overlay.classList.add("show");
-  }
-
-  function hideEndOverlay(){
-    overlay.classList.remove("show");
-  }
-
-  function setFinished(reason){
-    finished = true;
-    endedAt = new Date();
-
-    btnOk.disabled = true;
-    btnNg.disabled = true;
-
-    statePill.classList.remove("good");
-    statePill.classList.add("bad");
-    stateText.textContent = "終了";
-
-    updateClock();
-    showEndOverlay(reason);
-  }
-
-  function nextTech(){
-    index += 1;
-    attempt = 1;
-    streakFail = 0;
-    attemptResults = [];
-    resetMarks();
-
-    if(index >= TECHS.length){
-      setFinished("20種目を完走");
-    }
-  }
-
-  function updateUI(){
-    techNo.textContent = String(Math.min(index + 1, TECHS.length));
-    techName.textContent = TECHS[index] ?? "（終了）";
-    attemptNo.textContent = String(attempt);
-    streak.textContent = String(streakFail);
-    outsEl.textContent = String(outs);
-
-    updateOutDots();
-    updateMarksFromResults();
-    updateClock();
-
-    eventsCount.textContent = String(events.length);
-    okCount.textContent = String(events.filter(e => e.result === "OK").length);
-    ngCount.textContent = String(events.filter(e => e.result === "NG").length);
-
-    reach.textContent = String(Math.min(index + 1, TECHS.length));
-    btnUndo.disabled = (history.length === 0);
-
-    // log text
-    const lines = [];
-    lines.push("けん玉 予選練習ログ（各技2回・3アウト）");
-    lines.push(`開始: ${startedAt ? startedAt.toLocaleString() : "-"}`);
-    lines.push(`終了: ${endedAt ? endedAt.toLocaleString() : "-"}`);
-    lines.push(`アウト: ${outs}/3`);
-    lines.push(`現在: 技 ${Math.min(index+1, TECHS.length)}『${TECHS[index] ?? "-"}』 試行 ${attempt}/2`);
-    lines.push("");
-    lines.push("No,技No,技,試行,結果,連続失敗(後),アウト累計(後),時刻(ISO),メモ");
-    events.forEach((e, i) => {
-      lines.push([
-        i+1, e.techNo, e.tech, e.attemptNo, e.result, e.streakFailAfter, e.outsAfter, e.timeISO, e.note
-      ].map(x => String(x ?? "")).join(","));
-    });
-    output.value = lines.join("\n");
-  }
-
-  function addRipple(btn, color){
-    const r = document.createElement("span");
-    r.className = "ripple";
-    r.style.background = `radial-gradient(circle, ${color} 0%, rgba(255,255,255,0) 60%)`;
-    const rect = btn.getBoundingClientRect();
-    // center ripple
-    r.style.left = (rect.width * 0.5) + "px";
-    r.style.top  = (rect.height * 0.5) + "px";
-    btn.appendChild(r);
-    r.addEventListener("animationend", () => r.remove());
-  }
-
-  function flashButton(btn, kind){
-    btn.classList.remove("flash");
-    // reflow
-    void btn.offsetWidth;
-    btn.classList.add("flash");
-    addRipple(btn, kind === "OK" ? "rgba(61,220,151,.85)" : "rgba(255,204,102,.85)");
-    setTimeout(() => btn.classList.remove("flash"), 450);
-  }
-
-  function logTap(result){
-    if(finished) return;
-    ensureStarted();
-    history.push(snapshot());
-
-    const tech = TECHS[index];
-    const attemptNoNow = attempt;
-
-    if(result === "OK") streakFail = 0;
-    if(result === "NG") streakFail += 1;
-
-    attemptResults.push(result);
-
-    // Update marks immediately
-    updateMarksFromResults();
-
-    let outAdded = false;
-    if(attemptResults.length === 2){
-      if(attemptResults[0] === "NG" && attemptResults[1] === "NG"){
-        outs += 1;
-        outAdded = true;
-      }
-    }
-
-    events.push({
-      timeISO: nowISO(),
-      techNo: index + 1,
-      tech,
-      attemptNo: attemptNoNow,
-      result,
-      streakFailAfter: streakFail,
-      outsAfter: outs,
-      note:
-        (attemptResults.length < 2)
-          ? "1回目記録"
-          : (outAdded ? "2回目記録→2連続失敗でアウト" : "2回目記録→次の技へ")
-    });
-
-    // next state
-    if(attempt === 1){
-      attempt = 2;
-    } else {
-      if(outs >= 3){
-        setFinished("アウト3回に到達");
-        updateUI();
-        return;
-      }
-      nextTech();
-    }
-
-    updateUI();
-  }
-
-  async function copyToClipboard(text){
-    try{
-      await navigator.clipboard.writeText(text);
-      alert("コピーしました。");
-    }catch(e){
-      output.focus();
-      output.select();
-      document.execCommand("copy");
-      alert("コピーしました（互換モード）。");
-    }
-  }
-
-  function buildJSON(){
-    return JSON.stringify({
-      app: "kendama-yosen-practice",
-      rules: {
-        outsToEnd: 3,
-        attemptsPerTech: 2,
-        outWhen: "same tech NG then NG (2 attempts)",
-        proceedWhen: "always after 2 attempts"
-      },
-      startedAt: startedAt ? startedAt.toISOString() : null,
-      endedAt: endedAt ? endedAt.toISOString() : null,
-      currentTechNo: index + 1,
-      currentTech: TECHS[index] ?? null,
-      currentAttempt: attempt,
-      outs,
-      events
-    }, null, 2);
-  }
-
-  function csvEscape(s){
-    const str = String(s ?? "");
-    if(/[",\n]/.test(str)) return `"${str.replace(/"/g,'""')}"`;
-    return str;
-  }
-  function buildCSV(){
-    const header = ["No","技No","技","試行","結果","連続失敗(後)","アウト累計(後)","時刻(ISO)","メモ"];
-    const rows = events.map((e, i) => ([
-      i+1, e.techNo, e.tech, e.attemptNo, e.result, e.streakFailAfter, e.outsAfter, e.timeISO, e.note
-    ]));
-    return [header, ...rows].map(r => r.map(csvEscape).join(",")).join("\n");
-  }
-
-  function resetAll(){
-    if(!confirm("リセットします。よろしいですか？")) return;
-    startedAt = null;
-    endedAt = null;
-    index = 0;
-    attempt = 1;
-    outs = 0;
-    streakFail = 0;
-    finished = false;
-    attemptResults = [];
-    history.length = 0;
-    events.length = 0;
-    hideEndOverlay();
-    resetMarks();
-    updateUI();
-  }
-
-  function undo(){
-    if(history.length === 0) return;
-    const snap = history.pop();
-    restore(snap);
-    if(!finished) hideEndOverlay();
-    updateUI();
-  }
-
-  // Handlers
-  btnOk.addEventListener("click", () => { flashButton(btnOk, "OK"); logTap("OK"); });
-  btnNg.addEventListener("click", () => { flashButton(btnNg, "NG"); logTap("NG"); });
-  btnUndo.addEventListener("click", undo);
-  btnReset.addEventListener("click", resetAll);
-
-  btnCopyJson.addEventListener("click", () => copyToClipboard(buildJSON()));
-  btnCopyCsv.addEventListener("click", () => copyToClipboard(buildCSV()));
-  btnCopyText.addEventListener("click", () => copyToClipboard(output.value));
-
-  btnEndClose.addEventListener("click", hideEndOverlay);
-  btnEndCopyCsv.addEventListener("click", () => copyToClipboard(buildCSV()));
-  btnEndCopyJson.addEventListener("click", () => copyToClipboard(buildJSON()));
-
-  // Init
-  renderTechList();
-  updateUI();
-})();
+renderList();
+updateUI();
 </script>
 </body>
 </html>
