@@ -18,73 +18,280 @@
       --btn:#1a2432;
       --btn2:#223146;
       --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:16px;
+      --radius:18px;
+      --ring: 0 0 0 3px rgba(61,220,151,.18);
     }
+
+    *{ box-sizing:border-box; }
     body{
       margin:0;
-      background:radial-gradient(1200px 600px at 30% 0%, #0f1d2f 0%, var(--bg) 55%);
+      background:
+        radial-gradient(1100px 600px at 20% 0%, #102746 0%, rgba(16,39,70,0) 55%),
+        radial-gradient(900px 520px at 90% 10%, #2a1240 0%, rgba(42,18,64,0) 52%),
+        linear-gradient(180deg, #070a0f 0%, var(--bg) 60%);
       color:var(--text);
       font-family: ui-sans-serif, system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Segoe UI", Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
       line-height:1.4;
     }
-    .wrap{ max-width:980px; margin:0 auto; padding:18px 14px 40px; }
-    header{ display:flex; gap:12px; flex-wrap:wrap; align-items:baseline; justify-content:space-between; margin-bottom:14px; }
-    h1{ font-size:18px; margin:0; letter-spacing:.02em; }
-    .sub{ color:var(--muted); font-size:12px; }
-    .grid{ display:grid; grid-template-columns: 1.1fr .9fr; gap:12px; }
-    @media (max-width:860px){ .grid{ grid-template-columns:1fr; } }
+
+    .wrap{
+      max-width:980px;
+      margin:0 auto;
+      padding:18px 14px 42px;
+    }
+
+    header{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      align-items:flex-end;
+      justify-content:space-between;
+      margin-bottom:14px;
+    }
+    h1{
+      font-size:18px;
+      margin:0;
+      letter-spacing:.02em;
+    }
+    .sub{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:6px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:12px;
+    }
+    @media (max-width:860px){
+      .grid{ grid-template-columns:1fr; }
+    }
+
     .card{
-      background:linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
+      background:linear-gradient(180deg, rgba(18,26,36,.95) 0%, rgba(15,23,33,.95) 100%);
       border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
       padding:14px;
+      backdrop-filter: blur(10px);
     }
-    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
+    }
+
     .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px; border-radius:999px;
-      background:#0d1621; border:1px solid var(--line);
-      color:var(--muted); font-size:12px;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:#0d1621;
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
     }
-    .badge strong{ color:var(--text); font-weight:650; }
-    .big{ font-size:20px; margin:8px 0 6px; }
-    .muted{ color:var(--muted); font-size:12px; }
+    .badge strong{ color:var(--text); font-weight:750; }
+
     .divider{ height:1px; background:var(--line); margin:12px 0; }
-    .btns{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+
+    /* ===== Big status ===== */
+    .status{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:10px;
+      margin-top:8px;
+    }
+    @media (max-width:520px){
+      .status{ grid-template-columns:1fr; }
+    }
+
+    .statusBox{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, #0c1520 0%, #0a111a 100%);
+      border-radius:16px;
+      padding:12px;
+    }
+
+    .statusTitle{
+      font-size:12px;
+      color:var(--muted);
+      margin:0 0 6px 0;
+      letter-spacing:.02em;
+    }
+
+    .techBig{
+      font-size:28px;
+      font-weight:850;
+      letter-spacing:.02em;
+      margin:0;
+      line-height:1.2;
+    }
+
+    .techMeta{
+      margin-top:8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:#0d1621;
+      color:var(--muted);
+      font-size:12px;
+    }
+    .pill .dot{
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      background:var(--warn);
+    }
+    .pill.good .dot{ background:var(--good); }
+    .pill.bad .dot{ background:var(--bad); }
+
+    .outsDots{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .outsDots .dot{
+      width:18px;
+      height:18px;
+      border-radius:999px;
+      border:2px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.15);
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,.22);
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+    .outsDots .dot.on{
+      background: #ff2d2d;
+      border-color: rgba(255,45,45,.55);
+      transform: scale(1.06);
+    }
+    .outsText{
+      color:var(--muted);
+      font-size:12px;
+      margin-top:8px;
+    }
+
+    /* ===== Buttons with animation ===== */
+    .btns{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+
     button{
       -webkit-tap-highlight-color: transparent;
       appearance:none;
       border:1px solid var(--line);
       background:linear-gradient(180deg, var(--btn2) 0%, var(--btn) 100%);
       color:var(--text);
-      border-radius:14px;
-      padding:14px 12px;
-      font-size:16px;
-      font-weight:650;
+      border-radius:16px;
+      padding:16px 12px;
+      font-size:18px;
+      font-weight:850;
       cursor:pointer;
-      box-shadow: 0 10px 20px rgba(0,0,0,.25);
+      box-shadow: 0 12px 24px rgba(0,0,0,.28);
+      transform: translateZ(0);
+      transition: transform .12s ease, filter .12s ease, box-shadow .12s ease, border-color .12s ease;
+      position: relative;
+      overflow:hidden;
     }
-    button:active{ transform: translateY(1px); }
-    button[disabled]{ opacity:.45; cursor:not-allowed; box-shadow:none; }
+
+    button:active{
+      transform: translateY(1px) scale(0.985);
+      filter: brightness(1.08);
+      box-shadow: 0 8px 16px rgba(0,0,0,.22);
+    }
+
+    /* “press pulse” class added via JS */
+    button.pressed{
+      animation: pressPulse .18s ease-out;
+    }
+    @keyframes pressPulse{
+      0%{ transform: scale(1); }
+      60%{ transform: scale(0.985); }
+      100%{ transform: scale(1); }
+    }
+
+    /* “shine” effect */
+    button::after{
+      content:"";
+      position:absolute;
+      top:-120%;
+      left:-60%;
+      width:60%;
+      height:360%;
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.12) 45%, rgba(255,255,255,0) 100%);
+      transform: rotate(18deg);
+      opacity:0;
+      pointer-events:none;
+    }
+    button.pressed::after{
+      opacity:1;
+      animation: shine .35s ease-out;
+    }
+    @keyframes shine{
+      0%{ transform: translateX(0) rotate(18deg); opacity:0; }
+      20%{ opacity:1; }
+      100%{ transform: translateX(240%) rotate(18deg); opacity:0; }
+    }
+
     .ok{ border-color: rgba(61,220,151,.35); }
     .ng{ border-color: rgba(255,92,122,.35); }
-    .toolrow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-    .toolrow button{ font-size:13px; padding:10px 12px; border-radius:12px; font-weight:600; }
-    .pill{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:8px 10px; border:1px solid var(--line); border-radius:999px;
-      background:#0d1621; font-size:12px; color:var(--muted);
+
+    button[disabled]{
+      opacity:.45;
+      cursor:not-allowed;
+      box-shadow:none;
+      transform:none;
     }
-    .pill .dot{ width:10px; height:10px; border-radius:999px; background:var(--warn); }
-    .pill.good .dot{ background:var(--good); }
-    .pill.bad .dot{ background:var(--bad); }
-    .list{ margin:0; padding-left:18px; color:var(--muted); font-size:13px; }
+
+    .toolrow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+      align-items:center;
+    }
+    .toolrow button{
+      font-size:13px;
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:700;
+    }
+
+    .list{
+      margin:0;
+      padding-left:18px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* ===== Right panel output ===== */
     .kpi{
-      display:grid; grid-template-columns:repeat(3, 1fr);
-      gap:10px; margin-top:10px;
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:10px;
+      margin-top:10px;
     }
     @media (max-width:520px){ .kpi{ grid-template-columns:1fr; } }
+
     .kpi .box{
       background:#0d1621;
       border:1px solid var(--line);
@@ -92,26 +299,115 @@
       padding:10px 12px;
     }
     .kpi .box .t{ color:var(--muted); font-size:12px; }
-    .kpi .box .v{ font-size:18px; font-weight:750; margin-top:4px; }
+    .kpi .box .v{ font-size:18px; font-weight:850; margin-top:4px; }
+
     textarea{
-      width:100%; min-height:160px;
-      background:#0a111a; color:var(--text);
+      width:100%;
+      min-height:160px;
+      background:#0a111a;
+      color:var(--text);
       border:1px solid var(--line);
       border-radius:14px;
       padding:10px 12px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Noto Sans Mono", monospace;
-      font-size:12px; box-sizing:border-box; outline:none;
+      font-size:12px;
+      outline:none;
     }
-    .smallbtns{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
-    .smallbtns button{ font-size:12px; padding:10px 12px; border-radius:12px; font-weight:650; }
-    .foot{ margin-top:10px; color:var(--muted); font-size:12px; }
-    .alert{
-      padding:10px 12px; border-radius:14px;
-      border:1px solid var(--line);
-      background:#0d1621; color:var(--muted);
+
+    .smallbtns{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
       margin-top:10px;
     }
-    .alert strong{ color:var(--text); font-weight:750; }
+    .smallbtns button{
+      font-size:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:750;
+    }
+
+    /* ===== End overlay ===== */
+    .overlay{
+      position: fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      background: rgba(2,6,10,.72);
+      backdrop-filter: blur(10px);
+      z-index: 999;
+    }
+    .overlay.show{ display:flex; }
+
+    .endCard{
+      width:min(820px, 100%);
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(900px 380px at 25% 0%, rgba(61,220,151,.18) 0%, rgba(0,0,0,0) 60%),
+        radial-gradient(900px 380px at 90% 20%, rgba(255,92,122,.16) 0%, rgba(0,0,0,0) 58%),
+        linear-gradient(180deg, rgba(16,24,34,.92) 0%, rgba(10,16,24,.92) 100%);
+      box-shadow: 0 30px 70px rgba(0,0,0,.55);
+      padding:18px;
+      animation: pop .22s ease-out;
+    }
+    @keyframes pop{
+      0%{ transform: translateY(8px) scale(.985); opacity:0; }
+      100%{ transform: translateY(0) scale(1); opacity:1; }
+    }
+    .endTitle{
+      font-size:36px;
+      font-weight:900;
+      margin:0 0 6px 0;
+      letter-spacing:.02em;
+      line-height:1.05;
+    }
+    .endSub{
+      color:var(--muted);
+      font-size:13px;
+      margin:0 0 14px 0;
+    }
+    .endGrid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media (max-width:720px){ .endGrid{ grid-template-columns:1fr; } }
+
+    .endBox{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(8,14,21,.6);
+      border-radius:16px;
+      padding:12px;
+    }
+    .endBox .t{ color:var(--muted); font-size:12px; }
+    .endBox .v{ font-size:18px; font-weight:850; margin-top:4px; }
+
+    .endActions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      margin-top:14px;
+    }
+    .endActions button{
+      font-size:13px;
+      padding:10px 12px;
+      border-radius:12px;
+      font-weight:800;
+    }
+
+    .clockBadge{
+      padding:8px 10px;
+      border-radius:999px;
+      background:#0d1621;
+      border:1px solid var(--line);
+      color:var(--muted);
+      font-size:12px;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
@@ -121,22 +417,36 @@
         <h1>けん玉 予選練習（各技2回・3アウト）</h1>
         <div class="sub">各技は必ず2回。2回とも失敗（失敗→失敗）でアウト。アウト3回で終了。</div>
       </div>
-      <div class="badge" id="clock">開始前</div>
+      <div class="clockBadge" id="clock">開始前</div>
     </header>
 
     <div class="grid">
       <section class="card" aria-label="入力パネル">
         <div class="row">
-          <div class="badge">現在の技：<strong id="techNo">1</strong> / 20</div>
+          <div class="badge">技番号：<strong id="techNo">1</strong> / 20</div>
           <div class="badge">試行：<strong id="attemptNo">1</strong> / 2</div>
-          <div class="badge">この技の連続失敗：<strong id="streak">0</strong></div>
-          <div class="badge">アウト：<strong id="outs">0</strong> / 3</div>
+          <div class="pill good" id="statePill"><span class="dot"></span><span id="stateText">進行中</span></div>
         </div>
 
-        <div class="divider"></div>
+        <div class="status">
+          <div class="statusBox">
+            <p class="statusTitle">いまの技</p>
+            <p class="techBig" id="techName">小皿</p>
+            <div class="techMeta" id="techMeta">
+              <span class="badge">この技の連続失敗：<strong id="streak">0</strong></span>
+            </div>
+          </div>
 
-        <div class="big" id="techName">小皿</div>
-        <div class="muted" id="techHint">成功/失敗をタップ。2回終えたら自動で次の技へ。</div>
+          <div class="statusBox">
+            <p class="statusTitle">アウト</p>
+            <div class="outsDots" aria-label="outs dots">
+              <div class="dot" id="outDot1"></div>
+              <div class="dot" id="outDot2"></div>
+              <div class="dot" id="outDot3"></div>
+            </div>
+            <div class="outsText">アウト：<strong id="outs">0</strong> / 3</div>
+          </div>
+        </div>
 
         <div class="btns">
           <button class="ok" id="btnOk">成功</button>
@@ -146,10 +456,7 @@
         <div class="toolrow">
           <button id="btnUndo">1手戻す（Undo）</button>
           <button id="btnReset">リセット</button>
-          <span class="pill good" id="statePill"><span class="dot"></span><span id="stateText">進行中</span></span>
         </div>
-
-        <div class="alert" id="endAlert" style="display:none;"></div>
 
         <div class="divider"></div>
 
@@ -188,11 +495,45 @@
           <button id="btnCopyCsv">CSVとしてコピー</button>
           <button id="btnCopyText">テキストとしてコピー</button>
         </div>
-
-        <div class="foot">
-          メモ：このHTMLはローカル保存で動作。GitHub Pagesに置けばURLで起動できる。
-        </div>
       </section>
+    </div>
+  </div>
+
+  <!-- End overlay -->
+  <div class="overlay" id="overlay" role="dialog" aria-modal="true">
+    <div class="endCard">
+      <div class="row" style="align-items:flex-start;">
+        <div>
+          <div class="endTitle" id="endTitle">FINISHED</div>
+          <div class="endSub" id="endSub">セッションが終了しました</div>
+        </div>
+        <div class="clockBadge" id="endClock">—</div>
+      </div>
+
+      <div class="endGrid">
+        <div class="endBox">
+          <div class="t">理由</div>
+          <div class="v" id="endReason">—</div>
+        </div>
+        <div class="endBox">
+          <div class="t">到達</div>
+          <div class="v" id="endReach">—</div>
+        </div>
+        <div class="endBox">
+          <div class="t">アウト</div>
+          <div class="v" id="endOuts">—</div>
+        </div>
+        <div class="endBox">
+          <div class="t">成功 / 失敗</div>
+          <div class="v" id="endOkNg">—</div>
+        </div>
+      </div>
+
+      <div class="endActions">
+        <button id="btnEndCopyCsv">CSVをコピー</button>
+        <button id="btnEndCopyJson">JSONをコピー</button>
+        <button id="btnEndClose">閉じる</button>
+      </div>
     </div>
   </div>
 
@@ -209,13 +550,12 @@
   let endedAt = null;
 
   let index = 0;           // 技 0..19
-  let attempt = 1;         // 1 or 2（その技の何回目）
+  let attempt = 1;         // 1 or 2
   let outs = 0;            // 0..3
-  let streakFail = 0;      // その技内の連続失敗（最大2）
+  let streakFail = 0;      // 技内の連続失敗
   let finished = false;
 
-  // その技の1回目/2回目結果を保持して「2回とも失敗」を判定
-  let attemptResults = []; // 例 ["NG","OK"]
+  let attemptResults = []; // ["NG","OK"] etc.
 
   const history = [];
   const events = [];
@@ -228,6 +568,9 @@
   const streak = $("streak");
   const outsEl = $("outs");
   const techList = $("techList");
+  const outDot1 = $("outDot1");
+  const outDot2 = $("outDot2");
+  const outDot3 = $("outDot3");
 
   const output = $("output");
   const eventsCount = $("eventsCount");
@@ -235,7 +578,7 @@
   const ngCount = $("ngCount");
   const reach = $("reach");
   const clock = $("clock");
-  const endAlert = $("endAlert");
+
   const statePill = $("statePill");
   const stateText = $("stateText");
 
@@ -247,6 +590,18 @@
   const btnCopyJson = $("btnCopyJson");
   const btnCopyCsv = $("btnCopyCsv");
   const btnCopyText = $("btnCopyText");
+
+  const overlay = $("overlay");
+  const endTitle = $("endTitle");
+  const endSub = $("endSub");
+  const endClock = $("endClock");
+  const endReason = $("endReason");
+  const endReach = $("endReach");
+  const endOuts = $("endOuts");
+  const endOkNg = $("endOkNg");
+  const btnEndClose = $("btnEndClose");
+  const btnEndCopyCsv = $("btnEndCopyCsv");
+  const btnEndCopyJson = $("btnEndCopyJson");
 
   function nowISO(){ return new Date().toISOString(); }
   function pad(n){ return String(n).padStart(2,"0"); }
@@ -271,7 +626,6 @@
       events: JSON.parse(JSON.stringify(events))
     };
   }
-
   function restore(snap){
     startedAt = snap.startedAt;
     endedAt = snap.endedAt;
@@ -299,21 +653,44 @@
     clock.textContent = `開始 ${formatTime(startedAt)} / 進行中`;
   }
 
+  function updateOutDots(){
+    const dots = [outDot1, outDot2, outDot3];
+    dots.forEach((d, i) => d.classList.toggle("on", i < outs));
+  }
+
+  function showEndOverlay(reasonText){
+    const ok = events.filter(e => e.result === "OK").length;
+    const ng = events.filter(e => e.result === "NG").length;
+    const tech = TECHS[index] ?? "-";
+
+    endTitle.textContent = "FINISHED";
+    endSub.textContent = "セッションが終了しました";
+    endClock.textContent = (startedAt && endedAt) ? `開始 ${formatTime(startedAt)} / 終了 ${formatTime(endedAt)}` : "—";
+    endReason.textContent = reasonText;
+    endReach.textContent = `技 ${Math.min(index+1, TECHS.length)}「${tech}」 / 試行 ${attempt}/2`;
+    endOuts.textContent = `${outs} / 3`;
+    endOkNg.textContent = `${ok} / ${ng}`;
+
+    overlay.classList.add("show");
+  }
+
+  function hideEndOverlay(){
+    overlay.classList.remove("show");
+  }
+
   function setFinished(reason){
     finished = true;
     endedAt = new Date();
+
     btnOk.disabled = true;
     btnNg.disabled = true;
+
     statePill.classList.remove("good");
     statePill.classList.add("bad");
     stateText.textContent = "終了";
-    endAlert.style.display = "block";
 
-    const tech = TECHS[index] ?? "（終了）";
-    endAlert.innerHTML =
-      `<strong>終了。</strong> ${reason}<br>` +
-      `到達：技 ${index+1}『${tech}』 / 試行 ${attempt}/2。<br>` +
-      `開始 ${formatTime(startedAt)} / 終了 ${formatTime(endedAt)}。`;
+    updateClock();
+    showEndOverlay(reason);
   }
 
   function nextTech(){
@@ -323,24 +700,23 @@
     attemptResults = [];
 
     if(index >= TECHS.length){
-      setFinished("20種目を完走。");
+      setFinished("20種目を完走");
     }
   }
 
   function updateUI(){
-    techNo.textContent = String(index + 1);
+    techNo.textContent = String(Math.min(index + 1, TECHS.length));
     techName.textContent = TECHS[index] ?? "（終了）";
     attemptNo.textContent = String(attempt);
     streak.textContent = String(streakFail);
     outsEl.textContent = String(outs);
+    updateOutDots();
 
     eventsCount.textContent = String(events.length);
     okCount.textContent = String(events.filter(e => e.result === "OK").length);
     ngCount.textContent = String(events.filter(e => e.result === "NG").length);
 
-    // 到達は「今いる技番号」
     reach.textContent = String(Math.min(index + 1, TECHS.length));
-
     updateClock();
 
     const lines = [];
@@ -361,13 +737,20 @@
     btnUndo.disabled = (history.length === 0);
 
     if(!finished){
-      endAlert.style.display = "none";
       statePill.classList.remove("bad");
       statePill.classList.add("good");
       stateText.textContent = "進行中";
       btnOk.disabled = false;
       btnNg.disabled = false;
     }
+  }
+
+  function pressAnim(btn){
+    btn.classList.remove("pressed");
+    // reflow
+    void btn.offsetWidth;
+    btn.classList.add("pressed");
+    setTimeout(() => btn.classList.remove("pressed"), 220);
   }
 
   function logTap(result){
@@ -378,13 +761,11 @@
     const tech = TECHS[index];
     const attemptNoNow = attempt;
 
-    // 連続失敗は「失敗を押したら+1、成功なら0」
     if(result === "OK") streakFail = 0;
     if(result === "NG") streakFail += 1;
 
     attemptResults.push(result);
 
-    // 2回とも失敗ならアウト
     let outAdded = false;
     if(attemptResults.length === 2){
       if(attemptResults[0] === "NG" && attemptResults[1] === "NG"){
@@ -407,14 +788,12 @@
           : (outAdded ? "2回目記録→2連続失敗でアウト" : "2回目記録→次の技へ")
     });
 
-    // 次の状態へ
+    // next state
     if(attempt === 1){
       attempt = 2;
     } else {
-      // 2回目が終わったら次の技へ
-      // 次の技開始時に streakFail と attemptResults をリセット
       if(outs >= 3){
-        setFinished("アウト3回に到達。");
+        setFinished("アウト3回に到達");
         updateUI();
         return;
       }
@@ -427,12 +806,12 @@
   async function copyToClipboard(text){
     try{
       await navigator.clipboard.writeText(text);
-      alert("コピーした。");
+      alert("コピーしました。");
     }catch(e){
       output.focus();
       output.select();
       document.execCommand("copy");
-      alert("コピーした（互換モード）。");
+      alert("コピーしました（互換モード）。");
     }
   }
 
@@ -460,7 +839,6 @@
     if(/[",\n]/.test(str)) return `"${str.replace(/"/g,'""')}"`;
     return str;
   }
-
   function buildCSV(){
     const header = ["No","技No","技","試行","結果","連続失敗(後)","アウト累計(後)","時刻(ISO)","メモ"];
     const rows = events.map((e, i) => ([
@@ -470,7 +848,7 @@
   }
 
   function resetAll(){
-    if(!confirm("リセットする。よいか。")) return;
+    if(!confirm("リセットします。よろしいですか？")) return;
     startedAt = null;
     endedAt = null;
     index = 0;
@@ -481,6 +859,7 @@
     attemptResults = [];
     history.length = 0;
     events.length = 0;
+    hideEndOverlay();
     updateUI();
   }
 
@@ -488,11 +867,13 @@
     if(history.length === 0) return;
     const snap = history.pop();
     restore(snap);
+    if(!finished) hideEndOverlay();
     updateUI();
   }
 
-  btnOk.addEventListener("click", () => logTap("OK"));
-  btnNg.addEventListener("click", () => logTap("NG"));
+  // Click handlers
+  btnOk.addEventListener("click", () => { pressAnim(btnOk); logTap("OK"); });
+  btnNg.addEventListener("click", () => { pressAnim(btnNg); logTap("NG"); });
   btnUndo.addEventListener("click", undo);
   btnReset.addEventListener("click", resetAll);
 
@@ -500,16 +881,21 @@
   btnCopyCsv.addEventListener("click", () => copyToClipboard(buildCSV()));
   btnCopyText.addEventListener("click", () => copyToClipboard(output.value));
 
-  // PC用キー操作
+  btnEndClose.addEventListener("click", hideEndOverlay);
+  btnEndCopyCsv.addEventListener("click", () => copyToClipboard(buildCSV()));
+  btnEndCopyJson.addEventListener("click", () => copyToClipboard(buildJSON()));
+
+  // Keyboard (PC)
   window.addEventListener("keydown", (e) => {
     if(e.repeat) return;
     if(finished) return;
-    if(e.key === "ArrowRight" || e.key === "Enter") logTap("OK");
-    if(e.key === "ArrowLeft" || e.key === "Backspace") logTap("NG");
+    if(e.key === "ArrowRight" || e.key === "Enter") { pressAnim(btnOk); logTap("OK"); }
+    if(e.key === "ArrowLeft" || e.key === "Backspace") { pressAnim(btnNg); logTap("NG"); }
     if(e.key.toLowerCase() === "u") undo();
     if(e.key.toLowerCase() === "r") resetAll();
   });
 
+  // Init
   renderTechList();
   updateUI();
 })();
