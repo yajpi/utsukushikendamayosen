@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>けん玉 予選練習（3アウト方式）</title>
+  <title>けん玉 予選練習（各技2回・3アウト）</title>
   <style>
     :root{
       --bg:#0b0f14;
@@ -27,36 +27,12 @@
       font-family: ui-sans-serif, system-ui, -apple-system, "Hiragino Sans", "Noto Sans JP", "Segoe UI", Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
       line-height:1.4;
     }
-    .wrap{
-      max-width:980px;
-      margin:0 auto;
-      padding:18px 14px 40px;
-    }
-    header{
-      display:flex;
-      gap:12px;
-      flex-wrap:wrap;
-      align-items:baseline;
-      justify-content:space-between;
-      margin-bottom:14px;
-    }
-    h1{
-      font-size:18px;
-      margin:0;
-      letter-spacing:.02em;
-    }
-    .sub{
-      color:var(--muted);
-      font-size:12px;
-    }
-    .grid{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:12px;
-    }
-    @media (max-width:860px){
-      .grid{ grid-template-columns:1fr; }
-    }
+    .wrap{ max-width:980px; margin:0 auto; padding:18px 14px 40px; }
+    header{ display:flex; gap:12px; flex-wrap:wrap; align-items:baseline; justify-content:space-between; margin-bottom:14px; }
+    h1{ font-size:18px; margin:0; letter-spacing:.02em; }
+    .sub{ color:var(--muted); font-size:12px; }
+    .grid{ display:grid; grid-template-columns: 1.1fr .9fr; gap:12px; }
+    @media (max-width:860px){ .grid{ grid-template-columns:1fr; } }
     .card{
       background:linear-gradient(180deg, var(--panel) 0%, var(--panel2) 100%);
       border:1px solid var(--line);
@@ -64,39 +40,18 @@
       box-shadow:var(--shadow);
       padding:14px;
     }
-    .row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
-    }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
     .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius:999px;
-      background:#0d1621;
-      border:1px solid var(--line);
-      color:var(--muted);
-      font-size:12px;
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius:999px;
+      background:#0d1621; border:1px solid var(--line);
+      color:var(--muted); font-size:12px;
     }
     .badge strong{ color:var(--text); font-weight:650; }
-    .big{
-      font-size:20px;
-      margin:8px 0 6px;
-    }
+    .big{ font-size:20px; margin:8px 0 6px; }
     .muted{ color:var(--muted); font-size:12px; }
-    .divider{
-      height:1px; background:var(--line); margin:12px 0;
-    }
-    .btns{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-      margin-top:10px;
-    }
+    .divider{ height:1px; background:var(--line); margin:12px 0; }
+    .btns{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
     button{
       -webkit-tap-highlight-color: transparent;
       appearance:none;
@@ -111,16 +66,10 @@
       box-shadow: 0 10px 20px rgba(0,0,0,.25);
     }
     button:active{ transform: translateY(1px); }
-    button[disabled]{
-      opacity:.45;
-      cursor:not-allowed;
-      box-shadow:none;
-    }
+    button[disabled]{ opacity:.45; cursor:not-allowed; box-shadow:none; }
     .ok{ border-color: rgba(61,220,151,.35); }
     .ng{ border-color: rgba(255,92,122,.35); }
-    .toolrow{
-      display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;
-    }
+    .toolrow{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
     .toolrow button{ font-size:13px; padding:10px 12px; border-radius:12px; font-weight:600; }
     .pill{
       display:inline-flex; gap:8px; align-items:center;
@@ -130,18 +79,12 @@
     .pill .dot{ width:10px; height:10px; border-radius:999px; background:var(--warn); }
     .pill.good .dot{ background:var(--good); }
     .pill.bad .dot{ background:var(--bad); }
-    .list{
-      margin:0; padding-left:18px; color:var(--muted); font-size:13px;
-    }
+    .list{ margin:0; padding-left:18px; color:var(--muted); font-size:13px; }
     .kpi{
-      display:grid;
-      grid-template-columns:repeat(3, 1fr);
-      gap:10px;
-      margin-top:10px;
+      display:grid; grid-template-columns:repeat(3, 1fr);
+      gap:10px; margin-top:10px;
     }
-    @media (max-width:520px){
-      .kpi{ grid-template-columns:1fr; }
-    }
+    @media (max-width:520px){ .kpi{ grid-template-columns:1fr; } }
     .kpi .box{
       background:#0d1621;
       border:1px solid var(--line);
@@ -151,41 +94,21 @@
     .kpi .box .t{ color:var(--muted); font-size:12px; }
     .kpi .box .v{ font-size:18px; font-weight:750; margin-top:4px; }
     textarea{
-      width:100%;
-      min-height:160px;
-      background:#0a111a;
-      color:var(--text);
+      width:100%; min-height:160px;
+      background:#0a111a; color:var(--text);
       border:1px solid var(--line);
       border-radius:14px;
       padding:10px 12px;
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Noto Sans Mono", monospace;
-      font-size:12px;
-      box-sizing:border-box;
-      outline:none;
+      font-size:12px; box-sizing:border-box; outline:none;
     }
-    .smallbtns{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
-    .smallbtns button{
-      font-size:12px;
-      padding:10px 12px;
-      border-radius:12px;
-      font-weight:650;
-    }
-    .foot{
-      margin-top:10px;
-      color:var(--muted);
-      font-size:12px;
-    }
+    .smallbtns{ display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+    .smallbtns button{ font-size:12px; padding:10px 12px; border-radius:12px; font-weight:650; }
+    .foot{ margin-top:10px; color:var(--muted); font-size:12px; }
     .alert{
-      padding:10px 12px;
-      border-radius:14px;
+      padding:10px 12px; border-radius:14px;
       border:1px solid var(--line);
-      background:#0d1621;
-      color:var(--muted);
+      background:#0d1621; color:var(--muted);
       margin-top:10px;
     }
     .alert strong{ color:var(--text); font-weight:750; }
@@ -195,8 +118,8 @@
   <div class="wrap">
     <header>
       <div>
-        <h1>けん玉 予選練習（3アウト方式）</h1>
-        <div class="sub">同一技で『失敗×2連続』→アウト。アウト3回で終了。成功したら次の技へ進む。</div>
+        <h1>けん玉 予選練習（各技2回・3アウト）</h1>
+        <div class="sub">各技は必ず2回。2回とも失敗（失敗→失敗）でアウト。アウト3回で終了。</div>
       </div>
       <div class="badge" id="clock">開始前</div>
     </header>
@@ -204,21 +127,16 @@
     <div class="grid">
       <section class="card" aria-label="入力パネル">
         <div class="row">
-          <div class="badge">
-            現在の技：<strong id="techNo">1</strong> / 20
-          </div>
-          <div class="badge">
-            連続失敗：<strong id="streak">0</strong>（この技のみ）
-          </div>
-          <div class="badge">
-            アウト：<strong id="outs">0</strong> / 3
-          </div>
+          <div class="badge">現在の技：<strong id="techNo">1</strong> / 20</div>
+          <div class="badge">試行：<strong id="attemptNo">1</strong> / 2</div>
+          <div class="badge">この技の連続失敗：<strong id="streak">0</strong></div>
+          <div class="badge">アウト：<strong id="outs">0</strong> / 3</div>
         </div>
 
         <div class="divider"></div>
 
         <div class="big" id="techName">小皿</div>
-        <div class="muted" id="techHint">タップで記録。成功で次へ。失敗が2連続でアウト。</div>
+        <div class="muted" id="techHint">成功/失敗をタップ。2回終えたら自動で次の技へ。</div>
 
         <div class="btns">
           <button class="ok" id="btnOk">成功</button>
@@ -235,7 +153,7 @@
 
         <div class="divider"></div>
 
-        <div class="muted">技リスト（画像の順）</div>
+        <div class="muted">技リスト（予選20種目）</div>
         <ol class="list" id="techList"></ol>
       </section>
 
@@ -247,7 +165,7 @@
 
         <div class="kpi">
           <div class="box">
-            <div class="t">進んだ技番号（到達）</div>
+            <div class="t">到達（技番号）</div>
             <div class="v" id="reach">1</div>
           </div>
           <div class="box">
@@ -262,7 +180,7 @@
 
         <div class="divider"></div>
 
-        <div class="muted">ログ（必要ならここをコピー）</div>
+        <div class="muted">ログ</div>
         <textarea id="output" readonly></textarea>
 
         <div class="smallbtns">
@@ -272,7 +190,7 @@
         </div>
 
         <div class="foot">
-          メモ：このHTMLはローカル保存で動作。ネット不要。記録はページを閉じると消える（必要なら保存機能も足せる）。
+          メモ：このHTMLはローカル保存で動作。GitHub Pagesに置けばURLで起動できる。
         </div>
       </section>
     </div>
@@ -280,50 +198,37 @@
 
 <script>
 (() => {
-  // 画像内の「予選20種目」順
   const TECHS = [
-    "小皿",
-    "ろうそく",
-    "とめけん",
-    "飛行機",
-    "ふりけん",
-    "県一周",
-    "日本一周",
-    "世界一周",
-    "灯台",
-    "うぐいす",
-    "つるしとめけん",
-    "地球まわし",
-    "宇宙一周",
-    "さか落とし",
-    "はねけん",
-    "一回転灯台",
-    "一回転飛行機",
-    "すべり止め極意",
-    "灯台とんぼ返り",
-    "うらふりけん"
+    "小皿","ろうそく","とめけん","飛行機","ふりけん",
+    "県一周","日本一周","世界一周","灯台","うぐいす",
+    "つるしとめけん","地球まわし","宇宙一周","さか落とし","はねけん",
+    "一回転灯台","一回転飛行機","すべり止め極意","灯台とんぼ返り","うらふりけん"
   ];
 
-  // 状態
   let startedAt = null;
   let endedAt = null;
-  let index = 0;                 // 0..19
-  let outs = 0;                  // 0..3
-  let streakFail = 0;            // 連続失敗（この技のみ）
+
+  let index = 0;           // 技 0..19
+  let attempt = 1;         // 1 or 2（その技の何回目）
+  let outs = 0;            // 0..3
+  let streakFail = 0;      // その技内の連続失敗（最大2）
   let finished = false;
 
-  // 直近の状態スナップショットを積む（Undo用）
+  // その技の1回目/2回目結果を保持して「2回とも失敗」を判定
+  let attemptResults = []; // 例 ["NG","OK"]
+
   const history = [];
-  // 記録イベント
   const events = [];
 
-  // UI要素
   const $ = (id) => document.getElementById(id);
+
   const techNo = $("techNo");
   const techName = $("techName");
+  const attemptNo = $("attemptNo");
   const streak = $("streak");
   const outsEl = $("outs");
   const techList = $("techList");
+
   const output = $("output");
   const eventsCount = $("eventsCount");
   const okCount = $("okCount");
@@ -343,13 +248,10 @@
   const btnCopyCsv = $("btnCopyCsv");
   const btnCopyText = $("btnCopyText");
 
-  function nowISO(){
-    return new Date().toISOString();
-  }
-
+  function nowISO(){ return new Date().toISOString(); }
+  function pad(n){ return String(n).padStart(2,"0"); }
   function formatTime(d){
     if(!d) return "";
-    const pad = (n)=> String(n).padStart(2,"0");
     return `${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
   }
 
@@ -364,12 +266,8 @@
 
   function snapshot(){
     return {
-      startedAt,
-      endedAt,
-      index,
-      outs,
-      streakFail,
-      finished,
+      startedAt, endedAt, index, attempt, outs, streakFail, finished,
+      attemptResults: [...attemptResults],
       events: JSON.parse(JSON.stringify(events))
     };
   }
@@ -378,15 +276,30 @@
     startedAt = snap.startedAt;
     endedAt = snap.endedAt;
     index = snap.index;
+    attempt = snap.attempt;
     outs = snap.outs;
     streakFail = snap.streakFail;
     finished = snap.finished;
+    attemptResults = [...snap.attemptResults];
 
     events.length = 0;
     snap.events.forEach(e => events.push(e));
   }
 
-  function setFinished(){
+  function ensureStarted(){
+    if(!startedAt) startedAt = new Date();
+  }
+
+  function updateClock(){
+    if(!startedAt){ clock.textContent = "開始前"; return; }
+    if(finished && endedAt){
+      clock.textContent = `開始 ${formatTime(startedAt)} / 終了 ${formatTime(endedAt)}`;
+      return;
+    }
+    clock.textContent = `開始 ${formatTime(startedAt)} / 進行中`;
+  }
+
+  function setFinished(reason){
     finished = true;
     endedAt = new Date();
     btnOk.disabled = true;
@@ -395,68 +308,58 @@
     statePill.classList.add("bad");
     stateText.textContent = "終了";
     endAlert.style.display = "block";
+
+    const tech = TECHS[index] ?? "（終了）";
     endAlert.innerHTML =
-      `<strong>終了。</strong> アウト3回に到達。<br>` +
-      `到達：技 ${index+1}『${TECHS[index]}』まで。<br>` +
+      `<strong>終了。</strong> ${reason}<br>` +
+      `到達：技 ${index+1}『${tech}』 / 試行 ${attempt}/2。<br>` +
       `開始 ${formatTime(startedAt)} / 終了 ${formatTime(endedAt)}。`;
   }
 
-  function ensureStarted(){
-    if(!startedAt){
-      startedAt = new Date();
-    }
-  }
+  function nextTech(){
+    index += 1;
+    attempt = 1;
+    streakFail = 0;
+    attemptResults = [];
 
-  function updateClock(){
-    if(!startedAt){
-      clock.textContent = "開始前";
-      return;
+    if(index >= TECHS.length){
+      setFinished("20種目を完走。");
     }
-    if(finished && endedAt){
-      clock.textContent = `開始 ${formatTime(startedAt)} / 終了 ${formatTime(endedAt)}`;
-      return;
-    }
-    clock.textContent = `開始 ${formatTime(startedAt)} / 進行中`;
   }
 
   function updateUI(){
     techNo.textContent = String(index + 1);
     techName.textContent = TECHS[index] ?? "（終了）";
+    attemptNo.textContent = String(attempt);
     streak.textContent = String(streakFail);
     outsEl.textContent = String(outs);
 
     eventsCount.textContent = String(events.length);
     okCount.textContent = String(events.filter(e => e.result === "OK").length);
     ngCount.textContent = String(events.filter(e => e.result === "NG").length);
-    reach.textContent = String(index + 1);
+
+    // 到達は「今いる技番号」
+    reach.textContent = String(Math.min(index + 1, TECHS.length));
 
     updateClock();
 
-    // 出力（テキスト表示）
     const lines = [];
-    lines.push("けん玉 予選練習ログ（3アウト方式）");
+    lines.push("けん玉 予選練習ログ（各技2回・3アウト）");
     lines.push(`開始: ${startedAt ? startedAt.toLocaleString() : "-"}`);
     lines.push(`終了: ${endedAt ? endedAt.toLocaleString() : "-"}`);
     lines.push(`アウト: ${outs}/3`);
-    lines.push(`到達: 技 ${index+1}『${TECHS[index]}』`);
+    lines.push(`現在: 技 ${Math.min(index+1, TECHS.length)}『${TECHS[index] ?? "-"}』 試行 ${attempt}/2`);
     lines.push("");
-    lines.push("No,技,結果,連続失敗,アウト累計,時刻(ISO)");
+    lines.push("No,技No,技,試行,結果,連続失敗(後),アウト累計(後),時刻(ISO),メモ");
     events.forEach((e, i) => {
       lines.push([
-        i+1,
-        e.tech,
-        e.result,
-        e.streakFailAfter,
-        e.outsAfter,
-        e.timeISO
-      ].join(","));
+        i+1, e.techNo, e.tech, e.attemptNo, e.result, e.streakFailAfter, e.outsAfter, e.timeISO, e.note
+      ].map(x => String(x ?? "")).join(","));
     });
     output.value = lines.join("\n");
 
-    // Undo可否
     btnUndo.disabled = (history.length === 0);
 
-    // 終了表示
     if(!finished){
       endAlert.style.display = "none";
       statePill.classList.remove("bad");
@@ -467,93 +370,58 @@
     }
   }
 
-  function logEvent(result){
+  function logTap(result){
+    if(finished) return;
     ensureStarted();
-
-    // Undo用に保存
     history.push(snapshot());
 
     const tech = TECHS[index];
+    const attemptNoNow = attempt;
 
-    if(result === "OK"){
-      streakFail = 0;
+    // 連続失敗は「失敗を押したら+1、成功なら0」
+    if(result === "OK") streakFail = 0;
+    if(result === "NG") streakFail += 1;
 
-      events.push({
-        timeISO: nowISO(),
-        techNo: index + 1,
-        tech,
-        result: "OK",
-        streakFailAfter: streakFail,
-        outsAfter: outs,
-        note: "成功→次へ"
-      });
+    attemptResults.push(result);
 
-      // 次へ
-      if(index < TECHS.length - 1){
-        index += 1;
-      } else {
-        // 20まで到達したら一旦終了扱い（必要なら継続モードも追加可）
-        finished = true;
-        endedAt = new Date();
-        btnOk.disabled = true;
-        btnNg.disabled = true;
-        statePill.classList.remove("good");
-        statePill.classList.add("bad");
-        stateText.textContent = "終了";
-        endAlert.style.display = "block";
-        endAlert.innerHTML =
-          `<strong>終了。</strong> 20種目を完走。<br>` +
-          `開始 ${formatTime(startedAt)} / 終了 ${formatTime(endedAt)}。`;
+    // 2回とも失敗ならアウト
+    let outAdded = false;
+    if(attemptResults.length === 2){
+      if(attemptResults[0] === "NG" && attemptResults[1] === "NG"){
+        outs += 1;
+        outAdded = true;
       }
-
-      updateUI();
-      return;
     }
 
-    if(result === "NG"){
-      streakFail += 1;
+    events.push({
+      timeISO: nowISO(),
+      techNo: index + 1,
+      tech,
+      attemptNo: attemptNoNow,
+      result,
+      streakFailAfter: streakFail,
+      outsAfter: outs,
+      note:
+        (attemptResults.length < 2)
+          ? "1回目記録"
+          : (outAdded ? "2回目記録→2連続失敗でアウト" : "2回目記録→次の技へ")
+    });
 
-      // 2連続失敗でアウト
-      if(streakFail >= 2){
-        outs += 1;
-
-        events.push({
-          timeISO: nowISO(),
-          techNo: index + 1,
-          tech,
-          result: "NG",
-          streakFailAfter: streakFail,
-          outsAfter: outs,
-          note: "2連続失敗→アウト"
-        });
-
-        // アウト後の挙動：同じ技を続行（現実の予選ルールに寄せるならここは同一技継続が自然）
-        // streakはリセットして「次の試行」に入る
-        streakFail = 0;
-
-        if(outs >= 3){
-          setFinished();
-          updateUI();
-          return;
-        }
-
+    // 次の状態へ
+    if(attempt === 1){
+      attempt = 2;
+    } else {
+      // 2回目が終わったら次の技へ
+      // 次の技開始時に streakFail と attemptResults をリセット
+      if(outs >= 3){
+        setFinished("アウト3回に到達。");
         updateUI();
         return;
       }
-
-      events.push({
-        timeISO: nowISO(),
-        techNo: index + 1,
-        tech,
-        result: "NG",
-        streakFailAfter: streakFail,
-        outsAfter: outs,
-        note: "失敗（まだアウトではない）"
-      });
-
-      updateUI();
-      return;
+      nextTech();
     }
+
+    updateUI();
   }
 
   async function copyToClipboard(text){
@@ -561,7 +429,6 @@
       await navigator.clipboard.writeText(text);
       alert("コピーした。");
     }catch(e){
-      // 旧ブラウザ向けフォールバック
       output.focus();
       output.select();
       document.execCommand("copy");
@@ -574,50 +441,44 @@
       app: "kendama-yosen-practice",
       rules: {
         outsToEnd: 3,
-        outWhen: "same tech 2 consecutive fails",
-        advanceWhen: "at least one success on current tech"
+        attemptsPerTech: 2,
+        outWhen: "same tech NG then NG (2 attempts)",
+        proceedWhen: "always after 2 attempts"
       },
       startedAt: startedAt ? startedAt.toISOString() : null,
       endedAt: endedAt ? endedAt.toISOString() : null,
       currentTechNo: index + 1,
-      currentTech: TECHS[index],
+      currentTech: TECHS[index] ?? null,
+      currentAttempt: attempt,
       outs,
       events
     }, null, 2);
   }
 
+  function csvEscape(s){
+    const str = String(s ?? "");
+    if(/[",\n]/.test(str)) return `"${str.replace(/"/g,'""')}"`;
+    return str;
+  }
+
   function buildCSV(){
-    const header = ["No","技No","技","結果","連続失敗(後)","アウト累計(後)","時刻(ISO)","メモ"];
+    const header = ["No","技No","技","試行","結果","連続失敗(後)","アウト累計(後)","時刻(ISO)","メモ"];
     const rows = events.map((e, i) => ([
-      i+1,
-      e.techNo,
-      e.tech,
-      e.result,
-      e.streakFailAfter,
-      e.outsAfter,
-      e.timeISO,
-      e.note
+      i+1, e.techNo, e.tech, e.attemptNo, e.result, e.streakFailAfter, e.outsAfter, e.timeISO, e.note
     ]));
-    return [header, ...rows].map(r =>
-      r.map(x => {
-        const s = String(x ?? "");
-        // CSV安全化
-        if(/[",\n]/.test(s)) return `"${s.replace(/"/g,'""')}"`;
-        return s;
-      }).join(",")
-    ).join("\n");
+    return [header, ...rows].map(r => r.map(csvEscape).join(",")).join("\n");
   }
 
   function resetAll(){
-    if(!confirm("リセットする。よいか。")){
-      return;
-    }
+    if(!confirm("リセットする。よいか。")) return;
     startedAt = null;
     endedAt = null;
     index = 0;
+    attempt = 1;
     outs = 0;
     streakFail = 0;
     finished = false;
+    attemptResults = [];
     history.length = 0;
     events.length = 0;
     updateUI();
@@ -630,29 +491,27 @@
     updateUI();
   }
 
-  // イベント
-  btnOk.addEventListener("click", () => { if(!finished) logEvent("OK"); });
-  btnNg.addEventListener("click", () => { if(!finished) logEvent("NG"); });
-  btnReset.addEventListener("click", resetAll);
+  btnOk.addEventListener("click", () => logTap("OK"));
+  btnNg.addEventListener("click", () => logTap("NG"));
   btnUndo.addEventListener("click", undo);
+  btnReset.addEventListener("click", resetAll);
 
   btnCopyJson.addEventListener("click", () => copyToClipboard(buildJSON()));
   btnCopyCsv.addEventListener("click", () => copyToClipboard(buildCSV()));
   btnCopyText.addEventListener("click", () => copyToClipboard(output.value));
 
-  // 初期化
-  renderTechList();
-  updateUI();
-
-  // キーボード操作（PC用）
+  // PC用キー操作
   window.addEventListener("keydown", (e) => {
     if(e.repeat) return;
     if(finished) return;
-    if(e.key === "ArrowRight" || e.key === "Enter") logEvent("OK");
-    if(e.key === "ArrowLeft" || e.key === "Backspace") logEvent("NG");
+    if(e.key === "ArrowRight" || e.key === "Enter") logTap("OK");
+    if(e.key === "ArrowLeft" || e.key === "Backspace") logTap("NG");
     if(e.key.toLowerCase() === "u") undo();
     if(e.key.toLowerCase() === "r") resetAll();
   });
+
+  renderTechList();
+  updateUI();
 })();
 </script>
 </body>
